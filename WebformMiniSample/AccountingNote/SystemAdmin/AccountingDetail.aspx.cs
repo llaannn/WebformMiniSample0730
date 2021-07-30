@@ -1,4 +1,5 @@
-﻿using AccountingNote.DBSource;
+﻿using Accounting.Auth;
+using AccountingNote.DBSource;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,6 @@ namespace AccountingNote.SysteamAdmin
                 return;
             }
 
-
             string account = this.Session["UserLoginInfo"] as string;
             var drUserInfo = UserInfoManager.GetUserInfoByAccount(account);
 
@@ -26,10 +26,8 @@ namespace AccountingNote.SysteamAdmin
             {
                 Response.Redirect("/Login.aspx");
                 return;
-            }
+            }//到這邊
 
-
-            //到這邊
             if (!this.IsPostBack)//7
             {
                 //5判斷是新增還是編輯模式
@@ -79,95 +77,6 @@ namespace AccountingNote.SysteamAdmin
             }
         }
 
-            //if (!this.IsPostBack)
-            //{
-            //    if (this.Request.QueryString["ID"] == null)
-            //    {
-            //        this.btnDelete.Visible = false;
-            //    }
-            //    else
-            //    {
-            //        this.btnDelete.Visible = true;
-            //        string idText = this.Request.QueryString["ID"];
-            //        int id;
-            //        if (int.TryParse(idText, out id))
-            //        {
-            //            var drAccounting = AccountingManager.GetAccounting(id,drUserInfo["ID"].ToString());
-                        
-                        
-            //            if (drAccounting == null)
-            //            {
-
-            //                this.ltMsg.Text = "資料不存在";
-            //                this.btnSave.Visible = false;
-            //                this.btnDelete.Visible = false;
-            //            }
-            //            else
-            //            {
-            //                this.ddlActType.SelectedValue = drAccounting["ActType"].ToString();
-            //                this.txtAmount.Text = drAccounting["Amount"].ToString();
-            //                this.txtCaption.Text = drAccounting["Caption"].ToString();
-            //                this.txtDesc.Text = drAccounting["body"].ToString();
-            //            }
-            //        }
-            //        else
-            //        {
-            //            this.ltMsg.Text = "ID is required.";
-            //            this.btnSave.Visible = false;
-            //            this.btnDelete.Visible = false;
-            //        }
-
-
-
-            //    }
-                
-            //    string account = this.Session["UserLoginInfo"] as string;//取值
-            //    var dr = UserInfoManager.GetUserInfoByAccount(account);
-
-            //    if (dr == null)
-            //    {
-            //        Response.Redirect("/Login.aspx");
-            //        return;
-
-            //    }
-
-            //    string userID = dr["ID"].ToString();
-            //    string actTypeText = this.ddlActType.SelectedValue;
-            //    string amountText = this.txtAmount.Text;
-            //    string caption = this.txtCaption.Text;
-            //    string body = this.txtDesc.Text;
-
-            //    int amount = Convert.ToInt32(amountText);
-            //    int actType = Convert.ToInt32(actTypeText);
-
-            //    string idText = this.Request.QueryString["ID"];
-
-
-            //    //string idText = this.Request.QueryString["ID"];
-            //   
-
-            //    Response.Redirect("/SystemAdmin/AccountingList.aspx");
-
-
-
-              
-
-                //不知道哪裡錯了先註解
-                //string userID = dr["ID"].ToString();
-                //string actTypeText = this.ddlActType.SelectedValue;
-                //string amountText = this.txtAmount.Text;
-                //string caption = this.txtCaption.Text;
-                //string body = this.txtDesc.Text;
-
-                //int amount = Convert.ToInt32(amountText);
-                //int actType = Convert.ToInt32(actTypeText);
-
-                //AccountingManager.CreateAccounting(userID,caption,amount,actType,body);
-                //Response.Redirect("/SystemAdmin/AccountingList.aspx");
-
-
-      
-
         protected void btnSave_Click(object sender, EventArgs e)//第一次做好的存檔紐
         { 
             List<string> msgList = new List<string>();
@@ -177,9 +86,15 @@ namespace AccountingNote.SysteamAdmin
                 this.ltMsg.Text = string.Join("<br/>", msgList);//做字串結合
                 return;
             }
-           
+            UserInfoModel currentUser = AuthManager.GetCurrentUser();
+            if(currentUser == null)
+            {
+                Response.Redirect("/Login.aspx");
+                return;
 
-            string account = this.Session["UserLoginInfo"] as string;//1取值
+            }
+
+            string account = this.Session["UserLoginInfo"] as string;//1取值>>變更成方法
             var dr = UserInfoManager.GetUserInfoByAccount(account);
 
             if (dr == null)
@@ -187,8 +102,7 @@ namespace AccountingNote.SysteamAdmin
                 Response.Redirect("/Login.aspx");
                 return;
             }
-            
-        
+
             string userID =dr["ID"].ToString();//2新增輸出欄位從INFO?
             string actTypeText = this.ddlActType.SelectedValue;
             string amountText = this.txtAmount.Text;

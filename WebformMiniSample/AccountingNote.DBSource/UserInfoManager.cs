@@ -13,17 +13,17 @@ namespace AccountingNote.DBSource
     {
 
 
-        public static string GetConnectionstring()
-        {
-            string val = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+        //public static string GetConnectionstring()
+        //{
+        //    string val = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
 
-            return val;
+        //    return val;
 
-        }
+        //}//這個版本應該是當初UP上來前就錯了的
 
         public static DataRow GetUserInfoByAccount(string account)
         {
-            string connectionString = GetConnectionstring();
+            string connectionString = DBHelper.GetConnectionstring();
 
             string dbCommandString =
                 @"SELECT [ID],[Account],[PWD],[Name],[Email]

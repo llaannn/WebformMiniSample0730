@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Accounting.Auth;
 using AccountingNote.DBSource;
 
 namespace AccountingNote
@@ -34,7 +35,7 @@ namespace AccountingNote
             string inp_Account = this.txtAccount.Text;
             string inp_PWD = this.txtPWD.Text;
 
-            if(string.IsNullOrWhiteSpace(inp_Account)||string.IsNullOrWhiteSpace(inp_PWD))
+            if(!AuthManager.TryLogin(inp_Account,inp_PWD, out msg))
             {
                 this.ltlMsg.Text = "需要填入帳號或密碼";
                 return;

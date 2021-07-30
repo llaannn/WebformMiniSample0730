@@ -1,4 +1,5 @@
-﻿using AccountingNote.DBSource;
+﻿using Accounting.Auth;
+using AccountingNote.DBSource;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -14,7 +15,7 @@ namespace AccountingNote.SysteamAdmin
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (this.Session["UserLoginInfo"] == null)//檢查帳號
+            if (!AuthManager.IsLogined())//檢查帳號
             {
                 Response.Redirect("/Login.aspx");
                 return;
