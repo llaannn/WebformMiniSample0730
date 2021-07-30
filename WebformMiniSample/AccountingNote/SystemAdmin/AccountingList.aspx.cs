@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -87,10 +88,10 @@ namespace AccountingNote.SysteamAdmin
                     lb1.Text = "收入";
                 }
 
-                //if (dr.Row.Field<int>("Amonut") > 1500)
-                //{
-                //    lb1.ForeColor = Color.Red;
-                //}
+                if (dr.Row.Field<int>("Amonut") > 1500)
+                {
+                    lb1.ForeColor = Color.Red;
+                }
             }
         }
     }

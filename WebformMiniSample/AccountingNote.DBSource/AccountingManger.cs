@@ -252,6 +252,8 @@ namespace AccountingNote.DBSource
                    WHERE ID = @id
 
                 ";
+
+            
             using (SqlConnection conn = new SqlConnection(connStr))
             {
                 using (SqlCommand comm = new SqlCommand(dbCommand, conn))
